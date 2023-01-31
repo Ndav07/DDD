@@ -1,4 +1,4 @@
-import OrderItem from "./order_item"
+import OrderItem from './order_item'
 
 export default class Order {
   private id: string
@@ -13,14 +13,14 @@ export default class Order {
   }
 
   validate() {
-    if(this.id.length === 0) {
-      throw new Error("Id is required")
+    if (this.id.length === 0) {
+      throw new Error('Id is required')
     }
-    if(this.customerID.length === 0) {
-      throw new Error("Customer is required")
+    if (this.customerID.length === 0) {
+      throw new Error('Customer is required')
     }
-    if(this.items.length === 0) {
-      throw new Error("Items quantity must be greater than 0")
+    if (this.items.length === 0) {
+      throw new Error('Items quantity must be greater than 0')
     }
   }
 

@@ -4,13 +4,24 @@ export default class Order {
   private id: string
   private customerID: string
   private items: OrderItem[]
-  private total: number
 
   constructor(id: string, customerId: string, items: OrderItem[]) {
     this.id = id
     this.customerID = customerId
     this.items = items
-    this.total = this.totalOrder()
+    this.validate()
+  }
+
+  validate() {
+    if(this.id.length === 0) {
+      throw new Error("Id is required")
+    }
+    if(this.customerID.length === 0) {
+      throw new Error("Customer is required")
+    }
+    if(this.items.length === 0) {
+      throw new Error("Items quantity must be greater than 0")
+    }
   }
 
   totalOrder(): number {

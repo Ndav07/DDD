@@ -75,7 +75,110 @@ describe('Product repository tests', () => {
         }
       ]
     })
+  })
 
+  it('should find a order', async () => {
+    const customerRepository = new CustomerRepository()
+    const customer = new Customer('1', 'Customer1')
+    const address = new Address('Street1', 1, 'Zipcode1', 'City1')
+    customer.changeAddress(address)
+    await customerRepository.create(customer)
+
+    const productRepository = new ProductRepository()
+    const product = new Product('1', 'Product1', 100)
+    await productRepository.create(product)
+
+    const ordemItem1 = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+
+    const orderRepository = new OrderRepository()
+    const order = new Order('1', customer.getId(), [ordemItem1])
+    await orderRepository.create(order)
+
+    const orderFound = await orderRepository.find(order.getId())
+
+    expect(order).toStrictEqual(orderFound)
+  })
+
+  it('should find a order with 2 OrderItems', async () => {
+    const customerRepository = new CustomerRepository()
+    const customer = new Customer('1', 'Customer1')
+    const address = new Address('Street1', 1, 'Zipcode1', 'City1')
+    customer.changeAddress(address)
+    await customerRepository.create(customer)
+
+    const productRepository = new ProductRepository()
+    const product = new Product('1', 'Product1', 100)
+    await productRepository.create(product)
+
+    const ordemItem1 = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+
+    const product2 = new Product('2', 'Product2', 200)
+    await productRepository.create(product2)
+    const ordemItem2 = new OrderItem('2', product2.getName(), product2.getPrice(), product2.getId(), 4)
+
+    const orderRepository = new OrderRepository()
+    const order = new Order('1', customer.getId(), [ordemItem1, ordemItem2])
+    await orderRepository.create(order)
+
+    const orderFound = await orderRepository.find(order.getId())
+
+    expect(order).toStrictEqual(orderFound)
+  })
+
+  it('should update a order', async () => {
+    const customerRepository = new CustomerRepository()
+    const customer = new Customer('1', 'Customer1')
+    const address = new Address('Street1', 1, 'Zipcode1', 'City1')
+    customer.changeAddress(address)
+    await customerRepository.create(customer)
+
+    const productRepository = new ProductRepository()
+    const product = new Product('1', 'Product1', 100)
+    await productRepository.create(product)
+
+    const ordemItem1 = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+
+    const orderRepository = new OrderRepository()
+    const order = new Order('1', customer.getId(), [ordemItem1])
+    await orderRepository.create(order)
+
+    const product2 = new Product('2', 'Product2', 200)
+    await productRepository.create(product2)
+    const ordemItem2 = new OrderItem('2', product2.getName(), product2.getPrice(), product2.getId(), 4)
+
+    order.addItem(ordemItem2)
+
+    await orderRepository.update(order)
+
+    const orderFound = await orderRepository.find(order.getId())
+    console.log(orderFound.totalOrder())
+
+    expect(orderFound.getItems()).toHaveLength(2)
+    expect(orderFound).toEqual(order)
+  })
+
+  it('should find all order', async () => {
+    const customerRepository = new CustomerRepository()
+    const customer = new Customer('1', 'Customer1')
+    const address = new Address('Street1', 1, 'Zipcode1', 'City1')
+    customer.changeAddress(address)
+    await customerRepository.create(customer)
+
+    const productRepository = new ProductRepository()
+    const product = new Product('1', 'Product1', 100)
+    await productRepository.create(product)
+
+    const ordemItem = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+
+    const orderRepository = new OrderRepository()
+    const order1 = new Order('1', customer.getId(), [ordemItem])
+    await orderRepository.create(order1)
+    const order2 = new Order('2', customer.getId(), [ordemItem])
+    await orderRepository.create(order2)
+
+    const orderFound = await orderRepository.findAll()
+
+    expect(orderFound).toHaveLength(2)
   })
   
 })

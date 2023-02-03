@@ -41,6 +41,10 @@ export default class OrderItem {
   }
 
   getPrice(): number {
+    return this.price
+  }
+
+  getTotal(): number {
     return this.price * this.quantity
   }
 

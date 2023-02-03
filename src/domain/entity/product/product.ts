@@ -10,7 +10,7 @@ export default class Product {
     this.validate()
   }
 
-  validate() {
+  validate(): void {
     if(this.id.length === 0) {
       throw new Error("Id is required")
     }
@@ -22,6 +22,10 @@ export default class Product {
     }
   }
 
+  getId(): string {
+    return this.id
+  }
+
   getName(): string {
     return this.name
   }
@@ -30,11 +34,11 @@ export default class Product {
     return this.price
   }
 
-  changeName(name: string) {
+  changeName(name: string): void {
     this.name = name
   }
 
-  changePrice(price: number) {
+  changePrice(price: number): void {
     this.price = price
   }
 }

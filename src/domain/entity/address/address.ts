@@ -12,7 +12,18 @@ export default class Address {
   } 
 
   getStreet(): string {
-    this.street = "dwdwjkj"
     return this.street
+  }
+
+  getNumber(): number {
+    return this.number
+  }
+
+  getZip(): string {
+    return this.zip
+  }
+
+  getCity(): string {
+    return this.city
   }
 }

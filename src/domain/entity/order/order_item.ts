@@ -14,7 +14,7 @@ export default class OrderItem {
     this.validate()
   }
 
-  validate() {
+  validate(): void {
     if(this.id.length === 0) {
       throw new Error("Id is required")
     }
@@ -32,7 +32,23 @@ export default class OrderItem {
     }
   }
 
+  getId(): string {
+    return this.id
+  }
+
+  getName(): string {
+    return this.name
+  }
+
   getPrice(): number {
     return this.price * this.quantity
+  }
+
+  getProductId(): string {
+    return this.productId
+  }
+
+  getQuantity(): number {
+    return this.quantity
   }
 }

@@ -1,9 +1,8 @@
 import { Sequelize } from 'sequelize-typescript'
-import Address from '../../../../domain/entity/address/address'
-import Customer from '../../../../domain/entity/customer/customer'
-import Order from '../../../../domain/entity/order/order'
-import OrderItem from '../../../../domain/entity/order/order_item'
-import Product from '../../../../domain/entity/product/product'
+import Address from '../../../../domain/customer/entity/value-object/address'
+import Order from '../../../../domain/checkout/entity/order'
+import OrderItem from '../../../../domain/checkout/entity/order_item'
+import Product from '../../../../domain/product/entity/product'
 import CustomerModel from '../../db/model/customer/customer.model'
 import OrderItemModel from '../../db/model/order/order-item.model'
 import OrderModel from '../../db/model/order/order.model'
@@ -11,6 +10,7 @@ import ProductModel from '../../db/model/product/product.model'
 import CustomerRepository from '../customer_repository/customer.repository'
 import ProductRepository from '../product_repository/product.repository'
 import OrderRepository from './order.repository'
+import Customer from '../../../../domain/customer/entity/customer'
 
 describe('Product repository tests', () => {
   let sequileze: Sequelize
@@ -22,7 +22,12 @@ describe('Product repository tests', () => {
       logging: false,
       sync: { force: true },
     })
-    sequileze.addModels([OrderModel, OrderItemModel, CustomerModel, ProductModel])
+    sequileze.addModels([
+      OrderModel,
+      OrderItemModel,
+      CustomerModel,
+      ProductModel,
+    ])
     await sequileze.sync()
   })
 
@@ -43,14 +48,29 @@ describe('Product repository tests', () => {
     const product2 = new Product('2', 'Product2', 200)
     await productRepository.create(product2)
 
-    const ordemItem1 = new OrderItem('1', product1.getName(), product1.getPrice(), product1.getId(), 2)
-    const ordemItem2 = new OrderItem('2', product2.getName(), product2.getPrice(), product2.getId(), 4)
+    const ordemItem1 = new OrderItem(
+      '1',
+      product1.getName(),
+      product1.getPrice(),
+      product1.getId(),
+      2
+    )
+    const ordemItem2 = new OrderItem(
+      '2',
+      product2.getName(),
+      product2.getPrice(),
+      product2.getId(),
+      4
+    )
 
     const orderRepository = new OrderRepository()
     const order = new Order('1', customer.getId(), [ordemItem1, ordemItem2])
     await orderRepository.create(order)
 
-    const orderModel = await OrderModel.findOne({ where: { id: order.getId() }, include: ['items'] })
+    const orderModel = await OrderModel.findOne({
+      where: { id: order.getId() },
+      include: ['items'],
+    })
 
     expect(orderModel?.toJSON()).toStrictEqual({
       id: '1',
@@ -63,7 +83,7 @@ describe('Product repository tests', () => {
           price: ordemItem1.getPrice(),
           quantity: ordemItem1.getQuantity(),
           product_id: ordemItem1.getProductId(),
-          order_id: '1'
+          order_id: '1',
         },
         {
           id: ordemItem2.getId(),
@@ -71,9 +91,9 @@ describe('Product repository tests', () => {
           price: ordemItem2.getPrice(),
           quantity: ordemItem2.getQuantity(),
           product_id: ordemItem2.getProductId(),
-          order_id: '1'
-        }
-      ]
+          order_id: '1',
+        },
+      ],
     })
   })
 
@@ -88,7 +108,13 @@ describe('Product repository tests', () => {
     const product = new Product('1', 'Product1', 100)
     await productRepository.create(product)
 
-    const ordemItem1 = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+    const ordemItem1 = new OrderItem(
+      '1',
+      product.getName(),
+      product.getPrice(),
+      product.getId(),
+      2
+    )
 
     const orderRepository = new OrderRepository()
     const order = new Order('1', customer.getId(), [ordemItem1])
@@ -110,11 +136,23 @@ describe('Product repository tests', () => {
     const product = new Product('1', 'Product1', 100)
     await productRepository.create(product)
 
-    const ordemItem1 = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
+    const ordemItem1 = new OrderItem(
+      '1',
+      product.getName(),
+      product.getPrice(),
+      product.getId(),
+      2
+    )
 
     const product2 = new Product('2', 'Product2', 200)
     await productRepository.create(product2)
-    const ordemItem2 = new OrderItem('2', product2.getName(), product2.getPrice(), product2.getId(), 4)
+    const ordemItem2 = new OrderItem(
+      '2',
+      product2.getName(),
+      product2.getPrice(),
+      product2.getId(),
+      4
+    )
 
     const orderRepository = new OrderRepository()
     const order = new Order('1', customer.getId(), [ordemItem1, ordemItem2])
@@ -137,14 +175,26 @@ describe('Product repository tests', () => {
     await productRepository.create(product)
     const product2 = new Product('2', 'Product2', 200)
     await productRepository.create(product2)
-    
-    const ordemItem = new OrderItem('1', product.getName(), product.getPrice(), product.getId(), 2)
-    const ordemItem2 = new OrderItem('2', product2.getName(), product2.getPrice(), product2.getId(), 4)
+
+    const ordemItem = new OrderItem(
+      '1',
+      product.getName(),
+      product.getPrice(),
+      product.getId(),
+      2
+    )
+    const ordemItem2 = new OrderItem(
+      '2',
+      product2.getName(),
+      product2.getPrice(),
+      product2.getId(),
+      4
+    )
 
     const orderRepository = new OrderRepository()
     const order1 = new Order('1', customer.getId(), [ordemItem])
     await orderRepository.create(order1)
-    
+
     const order2 = new Order('2', customer.getId(), [ordemItem2])
     await orderRepository.create(order2)
 

@@ -1,6 +1,6 @@
-import Order from '../../../../domain/entity/order/order'
-import OrderItem from '../../../../domain/entity/order/order_item'
-import OrderRepositoryInterface from '../../../../domain/repository/order_repository/order.repository.interface'
+import Order from '../../../../domain/checkout/entity/order'
+import OrderItem from '../../../../domain/checkout/entity/order_item'
+import OrderRepositoryInterface from '../../../../domain/checkout/repository/order.repository.interface'
 import OrderItemModel from '../../db/model/order/order-item.model'
 import OrderModel from '../../db/model/order/order.model'
 
@@ -21,7 +21,7 @@ export default class OrderRepository implements OrderRepositoryInterface {
       },
       { include: [{ model: OrderItemModel }] }
     )
-  } 
+  }
 
   async update(entity: Order): Promise<void> {
     throw new Error('Not implements, does not make sense')
@@ -53,7 +53,7 @@ export default class OrderRepository implements OrderRepositoryInterface {
 
   async findAll(): Promise<Order[]> {
     const orderModels = await OrderModel.findAll({
-      include: { model: OrderItemModel }
+      include: { model: OrderItemModel },
     })
     const orders = orderModels.map((orderModel) => {
       const items = orderModel.items.map((item) => {

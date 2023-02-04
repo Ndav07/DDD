@@ -1,6 +1,6 @@
-import Address from '../../../../domain/entity/address/address'
-import Customer from '../../../../domain/entity/customer/customer'
-import CustomerRepositoryInterface from '../../../../domain/repository/customer_repository/customer.repository.interface'
+import Customer from '../../../../domain/customer/entity/customer'
+import Address from '../../../../domain/customer/entity/value-object/address'
+import CustomerRepositoryInterface from '../../../../domain/customer/repository/customer.repository.interface'
 import CustomerModel from '../../db/model/customer/customer.model'
 
 export default class CustomerRepository implements CustomerRepositoryInterface {

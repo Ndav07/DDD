@@ -1,5 +1,5 @@
-import Product from '../../../../domain/entity/product/product'
-import ProductRepositoryInterface from '../../../../domain/repository/product_repository/product.repository.interface'
+import Product from '../../../../domain/product/entity/product'
+import ProductRepositoryInterface from '../../../../domain/product/repository/product.repository.interface'
 import ProductModel from '../../db/model/product/product.model'
 
 export default class ProductRepository implements ProductRepositoryInterface {
@@ -28,7 +28,10 @@ export default class ProductRepository implements ProductRepositoryInterface {
   async find(id: string): Promise<Product> {
     let productModel
     try {
-      productModel = await ProductModel.findOne({ where: { id }, rejectOnEmpty: true })
+      productModel = await ProductModel.findOne({
+        where: { id },
+        rejectOnEmpty: true,
+      })
     } catch (error) {
       throw new Error('Product not found')
     }

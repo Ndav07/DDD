@@ -1,4 +1,4 @@
-import Address from '../address/address'
+import Address from "./value-object/address"
 
 export default class Customer {
   private id: string

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript'
-import Address from '../../../../domain/entity/address/address'
-import Customer from '../../../../domain/entity/customer/customer'
+import Customer from '../../../../domain/customer/entity/customer'
+import Address from '../../../../domain/customer/entity/value-object/address'
 import CustomerModel from '../../db/model/customer/customer.model'
 import CustomerRepository from './customer.repository'
 
@@ -39,7 +39,7 @@ describe('Customer repository test', () => {
       zipcode: address.getZip(),
       city: address.getCity(),
       active: customer.isActive(),
-      rewardPoints: customer.getRewardPoints()
+      rewardPoints: customer.getRewardPoints(),
     })
   })
 
@@ -63,7 +63,7 @@ describe('Customer repository test', () => {
       zipcode: address.getZip(),
       city: address.getCity(),
       active: customer.isActive(),
-      rewardPoints: customer.getRewardPoints()
+      rewardPoints: customer.getRewardPoints(),
     })
   })
 
@@ -81,7 +81,7 @@ describe('Customer repository test', () => {
 
   it('should throw an error when customer if not found', async () => {
     const customerRepository = new CustomerRepository()
-    
+
     expect(async () => {
       await customerRepository.find('123')
     }).rejects.toThrow('Customer not found')
@@ -92,14 +92,14 @@ describe('Customer repository test', () => {
     const customer1 = new Customer('123', 'Customer1')
     const address1 = new Address('Street1', 1, 'Zipcode1', 'City1')
     customer1.changeAddress(address1)
-    
+
     const customer2 = new Customer('231', 'Customer2')
     const address2 = new Address('Street2', 2, 'Zipcode2', 'City2')
     customer2.changeAddress(address2)
     customer2.addPoints(23)
-    
+
     const customers = [customer1, customer2]
-    
+
     await customerRepository.create(customer1)
     await customerRepository.create(customer2)
 

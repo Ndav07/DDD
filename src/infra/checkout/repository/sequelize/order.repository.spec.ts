@@ -3,14 +3,14 @@ import Address from '../../../../domain/customer/entity/value-object/address'
 import Order from '../../../../domain/checkout/entity/order'
 import OrderItem from '../../../../domain/checkout/entity/order_item'
 import Product from '../../../../domain/product/entity/product'
-import CustomerModel from '../../db/model/customer/customer.model'
-import OrderItemModel from '../../db/model/order/order-item.model'
-import OrderModel from '../../db/model/order/order.model'
-import ProductModel from '../../db/model/product/product.model'
-import CustomerRepository from '../customer_repository/customer.repository'
-import ProductRepository from '../product_repository/product.repository'
+import CustomerModel from '../../../customer/repository/sequelize/customer.model'
+import CustomerRepository from '../../../customer/repository/sequelize/customer.repository'
+import ProductRepository from '../../../product/repository/sequelize/product.repository'
 import OrderRepository from './order.repository'
 import Customer from '../../../../domain/customer/entity/customer'
+import OrderItemModel from './order-item.model'
+import ProductModel from '../../../product/repository/sequelize/product.model'
+import OrderModel from './order.model'
 
 describe('Product repository tests', () => {
   let sequileze: Sequelize
@@ -23,8 +23,8 @@ describe('Product repository tests', () => {
       sync: { force: true },
     })
     sequileze.addModels([
-      OrderModel,
       OrderItemModel,
+      OrderModel,
       CustomerModel,
       ProductModel,
     ])

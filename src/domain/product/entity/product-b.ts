@@ -1,6 +1,6 @@
 import ProductInterface from "./product.interface"
 
-export default class Product implements ProductInterface {
+export default class ProductB implements ProductInterface {
   private id: string
   private name: string
   private price: number

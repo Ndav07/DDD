@@ -11,12 +11,17 @@ describe('Customer factory unit test', () => {
   })
 
   it('should create a customer with an address', () => {
-    const address = new Address('Street', 1, '13330-250', 'São Paulo')
+    const address = {
+      street: 'Rua',
+      number: 222,
+      zip: 'Zip',
+      city: 'City'
+    }
 
     let customer = CustomerFactory.createWithAddress('John', address)
 
     expect(customer.getId()).toBeDefined()
     expect(customer.getName()).toBe('John')
-    expect(customer.getAddress()).toBe(address)
+    expect(customer.getAddress()).toEqual(address)
   })
 })

@@ -1,4 +1,4 @@
-import CustomerRepositoryInterface from "../../../domain/customer/repository/customer.repository.interface";
+import CustomerRepositoryInterface from "../../../../domain/customer/repository/customer.repository.interface";
 import { OutputListCustomerDto } from "./list.customer.dto";
 
 export default class ListCustomerUseCase {

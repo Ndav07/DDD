@@ -1,4 +1,4 @@
-import CustomerFactory from "../../../domain/customer/factory/customer.factory";
+import CustomerFactory from "../../../../domain/customer/factory/customer.factory";
 import UpdateCustomerUseCase from "./update.customer.usecase";
 
 const customer = CustomerFactory.createWithAddress('Níkollas', {city: 'Altas', number: 321, street: 'Luiz Antonio', zip: '45678-00'})

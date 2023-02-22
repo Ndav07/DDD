@@ -1,24 +1,34 @@
-import Address from "./value-object/address"
+import Entity from '../../@shared/entity/entity.abstract'
+import NotificationError from '../../@shared/notification/notification.error'
+import Address from './value-object/address'
 
-export default class Customer {
-  private id: string
+export default class Customer extends Entity{
   private name: string
   private address!: Address
   private activity: boolean = true
   private rewardPoints: number = 0
 
   constructor(id: string, name: string) {
-    this.id = id
+    super(id)
     this.name = name
     this.validate()
   }
 
   validate(): void {
     if (this.id.length === 0) {
-      throw new Error('Id is required')
+      this.notification.addError({
+        context: 'customer',
+        message: 'Id is required'
+      })
     }
     if (this.name.length === 0) {
-      throw new Error('Name is required')
+      this.notification.addError({
+        context: 'customer',
+        message: 'Name is required'
+      })
+    }
+    if(this.notification.hasErrors()) {
+      throw new NotificationError(this.notification.getErrors())
     }
   }
 
@@ -57,8 +67,12 @@ export default class Customer {
 
   activate(): void {
     if (this.address === undefined) {
-      throw new Error('Address is mandatory to activate a customer')
+      this.notification.addError({
+        context: 'customer',
+        message: 'Address is mandatory to activate a customer'
+      })
     }
+    this.validate()
     this.activity = true
   }
 
